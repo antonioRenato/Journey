@@ -18,12 +18,15 @@ namespace Journey.Api.Controllers
 
                 useCase.Execute(request);
 
-
                 return Created();
             }
             catch (JourneyException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error desconhecido");
             }
         }
     }
