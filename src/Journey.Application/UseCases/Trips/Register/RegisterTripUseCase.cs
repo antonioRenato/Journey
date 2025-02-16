@@ -1,4 +1,5 @@
 ﻿using Journey.Communication.Requests;
+using Journey.Communication.Responses;
 using Journey.Exception.ExceptionsBase;
 using Journey.Infrastructure;
 using Journey.Infrastructure.Entities;
@@ -7,7 +8,7 @@ namespace Journey.Application.UseCases.Trips.Register
 {
     public class RegisterTripUseCase
     {
-        public void Execute(RequestRegisterTripJson request)
+        public ResponseShortTripJson Execute(RequestRegisterTripJson request)
         {
             Validate(request);
 
@@ -22,6 +23,14 @@ namespace Journey.Application.UseCases.Trips.Register
 
             dbContext.Trips.Add(entity);
             dbContext.SaveChanges();
+
+            return new ResponseShortTripJson
+            {
+                EndDate = entity.EndDate,
+                StartDate = entity.StartDate,
+                Name = entity.Name,
+                Id = entity.Id
+            };
         }
 
         private void Validate(RequestRegisterTripJson request)
