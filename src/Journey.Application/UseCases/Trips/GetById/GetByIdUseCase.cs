@@ -18,7 +18,7 @@ namespace Journey.Application.UseCases.Trips.GetById
 
             if (trip == null)
             {
-                throw new JourneyException("Trip not Found");
+                throw new NotFoundException("Trip not Found");
             }
             
             return new ResponseTripJson{
