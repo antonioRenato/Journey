@@ -1,4 +1,5 @@
-﻿using Journey.Application.UseCases.Trips.GetAll;
+﻿using Journey.Application.UseCases.Trips.Delete;
+using Journey.Application.UseCases.Trips.GetAll;
 using Journey.Application.UseCases.Trips.GetById;
 using Journey.Application.UseCases.Trips.Register;
 using Journey.Communication.Requests;
@@ -68,6 +69,18 @@ namespace Journey.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error desconhecido");
             }
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public IActionResult Delete(Guid id)
+        {
+            var useCase = new DeleteUseCase();
+
+            useCase.Execute(id);
+            
+            return NoContent();
         }
     }
 }
