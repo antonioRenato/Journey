@@ -35,14 +35,16 @@ namespace Journey.Application.UseCases.Trips.Register
 
         private void Validate(RequestRegisterTripJson request)
         {
-            if (string.IsNullOrWhiteSpace(request.Name))
-                throw new ErrorOnValidationException("Nome não pode ser vazio");
+            var validator = new RegisterTripValidator();
 
-            if (request.StartDate.Date < DateTime.UtcNow.Date)
-                throw new ErrorOnValidationException("Data de começo não pode estar no passado!");
+            var result = validator.Validate(request);
 
-            if (request.EndDate.Date >= DateTime.UtcNow.Date)
-                throw new ErrorOnValidationException("A viagem deve terminar após a data de inicio");
+            if (!result.IsValid)
+            {
+                var errorMessages = result.Errors.Select(error => error.ErrorMessage).ToList();
+
+                throw new ErrorOnValidationException(errorMessages);
+            }
         }
     }
 }
